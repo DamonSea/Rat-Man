@@ -1,47 +1,70 @@
 # Rat-Man
 
-A Pac-Man-style maze game in Java Swing. You're a rat collecting cheese while cats chase you.
-Grab the big cheese to power up and eat the cats. Every 4th level is a boss level.
+<p align="center">
+  <img src="docs/media/gameplay.gif" alt="Rat-Man gameplay: the rat grabs the big cheese and chases a frightened cat" width="420">
+</p>
+
+<p align="center">
+  <b>A Pac-Man-style maze game where you're the rat.</b><br>
+  Collect the cheese, dodge the cats, grab the big cheese and turn the tables.<br>
+  Every 4th level, the Three-Headed Cat comes for you.
+</p>
+
+<p align="center">
+  <a href="https://damonsea.github.io/Rat-Man/"><b>▶ Play in your browser</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/DamonSea/Rat-Man/releases/latest"><b>⬇ Mac &amp; Windows apps</b></a>
+  &nbsp;·&nbsp;
+  <a href="CHANGELOG.md">What's new</a>
+</p>
 
 ## Play it (no Java needed)
 
 **In your browser:** https://damonsea.github.io/Rat-Man/ — click **Play** (the first load takes a little while).
+Controllers work there too: press any button on yours once the game has started.
 
 Download the Mac or Windows app from the
 [**Releases page**](https://github.com/DamonSea/Rat-Man/releases/latest), and see what changed
 in each version in the [**changelog**](CHANGELOG.md). The first-launch
 steps for unsigned apps are listed there.
 
-## Publishing a new version
+## What's inside
 
-1. Add a `## v1.3.0 — Short name (date)` section at the top of [`CHANGELOG.md`](CHANGELOG.md)
-   listing what's new. GIFs go in `docs/media/`.
-2. On GitHub, open the **Actions** tab → **Build apps** → **Run workflow**, type the same version
-   (`1.3.0`), and click **Run workflow**.
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/media/boss-intro.gif" alt="The Three-Headed Cat's entrance" width="380"><br>
+      <b>Boss fights.</b> The Three-Headed Cat makes an entrance every 4th level.
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/media/boss-pounce.gif" alt="The boss pounces, misses and hits the wall" width="380"><br>
+      <b>The Pounce.</b> Dodge its lunge and it slams into the wall, dizzy.
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/media/boss-defeat.gif" alt="The boss explodes" width="380"><br>
+      <b>Take it down</b> and it goes out with a bang.
+    </td>
+    <td align="center">
+      <img src="docs/media/joe-oakes-pop.gif" alt="The Joe Oakes skin spins and pops" width="300"><br>
+      <b>Skins,</b> including Joe Oakes, with a classic arcade spin-and-pop.
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs/media/controller-menus.gif" alt="Navigating the menus with a controller" width="300"><br>
+      <b>Controller support</b> for PS5, PS4, Xbox and Switch Pro, with rumble.
+    </td>
+    <td align="center">
+      <img src="docs/media/controller-initials.gif" alt="Entering high score initials arcade style" width="340"><br>
+      <b>Arcade-style high scores</b>, so you can put your initials on the board.
+    </td>
+  </tr>
+</table>
 
-A few minutes later the Mac and Windows apps appear on the Releases page, with that version's
-changelog section as the "What's new" at the top. (Pushing a `v1.3.0` git tag does the same thing.)
-
-The browser version (`web/index.html`, run by [CheerpJ](https://cheerpj.com/)) republishes itself through
-`.github/workflows/pages.yml` whenever `main` changes.
-
-The workflow is `.github/workflows/release.yml`; the download page text is `packaging/RELEASE_NOTES.md`;
-the app icon comes from `packaging/make_icon.py`.
-
-Changed the changelog or install guide after publishing? Run **Actions** → **Update release notes**
-(leave the version empty to refresh every release page).
-
-## Run it from source
-
-Requires **Java 17+** and **Maven**.
-
-```bash
-mvn compile exec:java
-```
-
-Or open the folder in IntelliJ as a Maven project and run `ratman.RatMan`.
-
-To build a jar: `mvn package` → `target/rat-man-1.1.0.jar`.
+Meet the cats: **Alpha, the Chaser** comes straight for you, **Explorer, the Ambusher** cuts you off,
+and **Yoda, the Flanker** comes at you from the side. **How to Play** on the main menu has the full rundown.
 
 ## Controls
 
@@ -82,6 +105,37 @@ Levels are plain text files in `src/main/resources/levels/` (`level1.txt` … `l
 block in the exact centre), space = open floor with no dot. An open cell on the left/right edge is a
 wrap-around tunnel. Any dot the player can't reach is removed automatically when the level loads.
 - Skins: Rat, Squirrel, Joe Oakes
+
+## Run it from source
+
+Requires **Java 17+** and **Maven**.
+
+```bash
+mvn compile exec:java
+```
+
+Or open the folder in IntelliJ as a Maven project and run `ratman.RatMan`.
+
+To build a jar: `mvn package` → `target/rat-man-1.1.0.jar`.
+
+## Publishing a new version
+
+1. Add a `## v1.3.0 — Short name (date)` section at the top of [`CHANGELOG.md`](CHANGELOG.md)
+   listing what's new. GIFs go in `docs/media/`.
+2. On GitHub, open the **Actions** tab → **Build apps** → **Run workflow**, type the same version
+   (`1.3.0`), and click **Run workflow**.
+
+A few minutes later the Mac and Windows apps appear on the Releases page, with that version's
+changelog section as the "What's new" at the top. (Pushing a `v1.3.0` git tag does the same thing.)
+
+The browser version (`web/index.html`, run by [CheerpJ](https://cheerpj.com/)) republishes itself through
+`.github/workflows/pages.yml` whenever `main` changes.
+
+The workflow is `.github/workflows/release.yml`; the download page text is `packaging/RELEASE_NOTES.md`;
+the app icon comes from `packaging/make_icon.py`.
+
+Changed the changelog or install guide after publishing? Run **Actions** → **Update release notes**
+(leave the version empty to refresh every release page).
 
 ## Project layout
 
