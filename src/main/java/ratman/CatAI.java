@@ -100,7 +100,8 @@ final class CatAI {
                 next = toward(maze, cat, target.x, target.y, false, inCage);
             }
         }
-        if (!cat.eyes && isOccupied(game, cat, next.x, next.y)) return;
+        // Cats pass straight through each other, like the ghosts in Pac-Man (they used to block
+        // each other and bunch up in corridors).
 
         cat.prevX = cat.x;
         cat.prevY = cat.y;
@@ -312,14 +313,6 @@ final class CatAI {
             }
         }
         return dist;
-    }
-
-    private static boolean isOccupied(GamePanel game, Cat self, int x, int y) {
-        if (Maze.inCage(x, y)) return false; // cats can squeeze past each other inside the cage
-        for (Cat other : game.activeCats()) {
-            if (other != self && !other.eyes && other.isAt(x, y)) return true;
-        }
-        return false;
     }
 
     /** Eyes wait in the cage, then the cat revives at its home spot. */
