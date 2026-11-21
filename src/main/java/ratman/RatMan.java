@@ -8,19 +8,30 @@ import javax.swing.SwingUtilities;
 public final class RatMan {
     private static JFrame frame;
     private static GamePanel game;
+    /** True when running in a web page (CheerpJ), started with the --browser argument. */
+    static boolean inBrowser;
 
     private RatMan() {}
 
     public static void main(String[] args) {
+        for (String a : args) {
+            if (a.equals("--browser")) inBrowser = true;
+        }
+        if (inBrowser) {
+            // CheerpJ keeps files under /files/ in the browser's storage between visits
+            System.setProperty("ratman.saveDir", "/files/ratman");
+        }
         useSameLookOnEveryOs();
         SwingUtilities.invokeLater(() -> {
             frame = new JFrame("Rat-Man");
             setAppIcon(frame);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
+            if (inBrowser) frame.setUndecorated(true); // the web page is the window
             // Controller support: start SDL once, then poll ~60x a second and hand the
             // actions to whichever screen is showing.
-            Gamepad.install(Gamepad.start());
+            // (In the browser the desktop controller library can't load, so skip it.)
+            Gamepad.install(inBrowser ? new Gamepad(null) : Gamepad.start());
             new javax.swing.Timer(16, e -> Gamepad.current().poll(
                     frame.getContentPane() instanceof Gamepad.Target t ? t : null)).start();
 

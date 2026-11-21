@@ -5,6 +5,8 @@ Grab the big cheese to power up and eat the cats. Every 4th level is a boss leve
 
 ## Play it (no Java needed)
 
+**In your browser:** https://damonsea.github.io/Rat-Man/ — click **Play** (the first load takes a little while).
+
 Download the Mac or Windows app from the
 [**Releases page**](https://github.com/DamonSea/Rat-Man/releases/latest), and see what changed
 in each version in the [**changelog**](CHANGELOG.md). The first-launch
@@ -19,6 +21,9 @@ steps for unsigned apps are listed there.
 
 A few minutes later the Mac and Windows apps appear on the Releases page, with that version's
 changelog section as the "What's new" at the top. (Pushing a `v1.3.0` git tag does the same thing.)
+
+The browser version (`web/index.html`, run by [CheerpJ](https://cheerpj.com/)) republishes itself through
+`.github/workflows/pages.yml` whenever `main` changes.
 
 The workflow is `.github/workflows/release.yml`; the download page text is `packaging/RELEASE_NOTES.md`;
 the app icon comes from `packaging/make_icon.py`.

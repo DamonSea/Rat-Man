@@ -1,0 +1,61 @@
+# Publishes the browser version of Rat-Man to GitHub Pages: https://damonsea.github.io/Rat-Man/
+# Runs on every push to main (and from the Actions tab). The page itself is web/index.html;
+# CheerpJ (a Java runtime in WebAssembly) runs the normal game jar inside it.
+# One-time setup: repo Settings -> Pages -> Source: "GitHub Actions".
+name: Publish web version
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build the game jar
+        run: mvn -B package
+
+      - name: Put the site together
+        run: |
+          mkdir -p site/lib
+          cp web/index.html site/
+          cp packaging/ratman.png site/icon.png
+          cp target/rat-man.jar site/
+          cp target/lib/*.jar site/lib/
+          # list the jars for the page's class path
+          ( cd site && printf 'window.RAT_JARS = [%s];\n' \
+              "$(ls rat-man.jar lib/*.jar | sed 's/.*/"&"/' | paste -sd, -)" ) > site/jars.js
+          cat site/jars.js
+          ls -la site site/lib
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

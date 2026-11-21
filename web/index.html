@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rat-Man</title>
+  <link rel="icon" href="icon.png" />
+  <!-- CheerpJ runs the unchanged Java game in the browser (WebAssembly). Free for personal projects. -->
+  <script src="https://cjrtnc.leaningtech.com/5.0/loader.js"></script>
+  <script src="jars.js"></script> <!-- written by the Pages workflow: window.RAT_JARS = [...] -->
+  <style>
+    :root { color-scheme: dark; }
+    html, body { margin: 0; height: 100%; background: #0d0b1a; color: #e8e4f5;
+                 font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { min-height: 100%; display: flex; flex-direction: column; align-items: center;
+           justify-content: center; gap: 14px; padding: 16px; box-sizing: border-box; }
+    h1 { margin: 0; font-size: 34px; letter-spacing: 2px; color: #ffc828;
+         text-shadow: 0 0 18px rgba(255, 200, 40, .45); }
+    #game { position: relative; width: 640px; height: 640px; max-width: 100%;
+            background: #000; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 0 0 3px #2d2550, 0 18px 60px rgba(0, 0, 0, .6); }
+    #start { position: absolute; inset: 0; display: flex; flex-direction: column;
+             align-items: center; justify-content: center; gap: 18px; text-align: center;
+             background: radial-gradient(circle at 50% 40%, #2a2150 0%, #0d0b1a 70%); }
+    #start img { width: 120px; height: 120px; image-rendering: pixelated; }
+    #play { font: inherit; font-size: 26px; font-weight: 800; letter-spacing: 3px;
+            padding: 14px 54px; border: 0; border-radius: 12px; cursor: pointer;
+            color: #1b1300; background: #ffc828; box-shadow: 0 6px 0 #b8860b; }
+    #play:hover { filter: brightness(1.08); }
+    #play:active { transform: translateY(4px); box-shadow: 0 2px 0 #b8860b; }
+    #play:disabled { opacity: .6; cursor: default; }
+    #status { font-size: 15px; color: #b9b2d6; min-height: 1.3em; }
+    .note { font-size: 14px; color: #9a93b8; text-align: center; max-width: 640px; line-height: 1.5; }
+    a { color: #ffc828; }
+    kbd { background: #241d42; border: 1px solid #3b3266; border-radius: 4px; padding: 1px 6px; font-size: 13px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>RAT-MAN</h1>
+  <div id="game">
+    <div id="start">
+      <img src="icon.png" alt="" />
+      <button id="play">PLAY</button>
+      <div id="status">First load takes a little while — after that it's quicker.</div>
+    </div>
+  </div>
+  <p class="note">
+    Move with <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ·
+    Pause with <kbd>P</kbd> or <kbd>Esc</kbd> · Click the game if the keys stop responding.<br />
+    Controllers work in the <a href="https://github.com/DamonSea/Rat-Man/releases/latest">Mac &amp; Windows apps</a>.
+    · <a href="https://github.com/DamonSea/Rat-Man/blob/main/CHANGELOG.md">What's new</a>
+    · Built with <a href="https://cheerpj.com/">CheerpJ</a>
+  </p>
+</main>
+<script type="module">
+  const play = document.getElementById("play");
+  const status = document.getElementById("status");
+
+  play.addEventListener("click", async () => {
+    play.disabled = true;
+    status.textContent = "Loading Java… (this can take 20–40 seconds the first time)";
+    try {
+      await cheerpjInit({ version: 17 });
+      document.getElementById("start").remove();
+      cheerpjCreateDisplay(-1, -1, document.getElementById("game"));
+      // "/app/" is the root of this website; the game lives in this page's folder.
+      const base = "/app" + location.pathname.replace(/[^/]*$/, "");
+      const classpath = window.RAT_JARS.map(j => base + j).join(":");
+      await cheerpjRunMain("ratman.RatMan", classpath, "--browser");
+    } catch (e) {
+      console.error(e);
+      status.textContent = "Couldn't start the game in this browser. Try Chrome, Edge or Safari, or grab the desktop app.";
+      play.disabled = false;
+    }
+  }, { once: false });
+</script>
+</body>
+</html>
