@@ -79,6 +79,8 @@ and **Yoda, the Flanker** comes at you from the side. **How to Play** on the mai
 Controllers work over USB or Bluetooth and can be connected any time. A PS5 controller's light bar
 turns cheese-yellow, and controllers rumble when things happen (turn it off in **Settings**).
 
+For an old-arcade look, turn on **CRT EFFECT** in **Settings** (scanlines, curved corners, a faint flicker). It's off by default.
+
 Debug mode (999 lives; press `0` to clear a level):
 `mvn compile exec:java -Dratman.debug=true`
 

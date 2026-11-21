@@ -69,6 +69,15 @@ final class Settings {
         set("rumble", on);
     }
 
+    /** Old-TV look over the whole window (off by default). */
+    static boolean crtOn() {
+        return Boolean.parseBoolean(PROPS.getProperty("crt", "false"));
+    }
+
+    static void setCrtOn(boolean on) {
+        set("crt", on);
+    }
+
     private static void set(String key, boolean value) {
         PROPS.setProperty(key, Boolean.toString(value));
         try {

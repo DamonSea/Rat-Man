@@ -28,6 +28,8 @@ public final class RatMan {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
             if (inBrowser) frame.setUndecorated(true); // the web page is the window
+            frame.setGlassPane(new CrtOverlay());       // optional CRT effect over every screen
+            frame.getGlassPane().setVisible(true);
             // Controller support: start SDL once, then poll ~60x a second and hand the
             // actions to whichever screen is showing.
             // (In the browser the desktop controller library can't load; the web page reads controllers instead.)
