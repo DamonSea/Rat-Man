@@ -47,8 +47,8 @@ steps for unsigned apps are listed there.
       <b>Take it down</b> and it goes out with a bang.
     </td>
     <td align="center">
-      <img src="docs/media/joe-oakes-pop.gif" alt="The Joe Oakes skin spins and pops" width="300"><br>
-      <b>Skins,</b> including Joe Oakes, with a classic arcade spin-and-pop.
+      <img src="docs/media/joe-oakes-pop.gif" alt="The Joe skin spins and pops" width="300"><br>
+      <b>Skins,</b> including Joe, with a classic arcade spin-and-pop.
     </td>
   </tr>
   <tr>
@@ -104,7 +104,7 @@ Levels are plain text files in `src/main/resources/levels/` (`level1.txt` … `l
 21 characters. `#` wall, `.` dot, `o` big cheese, `P` player start, `C` the cat cage (keep it as the 3×3
 block in the exact centre), space = open floor with no dot. An open cell on the left/right edge is a
 wrap-around tunnel. Any dot the player can't reach is removed automatically when the level loads.
-- Skins: Rat, Squirrel, Joe Oakes
+- Skins: Rat, Squirrel, Joe
 
 ## Run it from source
 

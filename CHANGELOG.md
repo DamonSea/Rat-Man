@@ -45,9 +45,9 @@ What's new in each version of Rat-Man. Download the latest version from the
 
   ![Defeating the boss](https://raw.githubusercontent.com/DamonSea/Rat-Man/main/docs/media/boss-defeat.gif)
 
-- **New death animation.** When you get caught, you spin and pop like a classic arcade game. That includes the Joe Oakes skin.
+- **New death animation.** When you get caught, you spin and pop like a classic arcade game. That includes the Joe skin.
 
-  ![Joe Oakes spins and pops](https://raw.githubusercontent.com/DamonSea/Rat-Man/main/docs/media/joe-oakes-pop.gif)
+  ![Joe spins and pops](https://raw.githubusercontent.com/DamonSea/Rat-Man/main/docs/media/joe-oakes-pop.gif)
 
 ## v1.0.0 — The comeback (2026-11-20)
 

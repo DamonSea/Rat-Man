@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 public enum Skin {
     RAT("Rat", "Rat.png", 4, true),
     SQUIRREL("Squirrel", "Squirrel.png", 4, false),
-    JOE_OAKES("Joe Oakes", "Joe_Oakes.png", 7, false);
+    JOE_OAKES("Joe", "Joe_Oakes.png", 7, false);
 
     private static Skin selected = RAT;
 
