@@ -442,6 +442,14 @@ def boss_defeat_jingle():
     return jingle(150, lead, chords_at=[(2.25, ["G3", "D4", "B4", "G5"], 2.5)], lead_duty=0.25, tail=0.6)
 
 
+def cat_combo_jingle():  # all three cats on one big cheese
+    lead = "C6:.125 E6:.125 G6:.125 C7:.125 E6:.125 G6:.125 C7:.125 E7:.125 G7:.25 R:.125 E7:.125 G7:1"
+    j = jingle(168, lead, chords_at=[(1.75, ["C5", "E5", "G5", "C6"], 1.25)], lead_duty=0.25, tail=0.35)
+    add(j, kick() * 0.5, 0)
+    add(j, snare() * 0.45, int(1.75 * 60 / 168 * SR))
+    return j
+
+
 if __name__ == "__main__":
     print("Writing to", os.path.abspath(OUT))
     save("music_menu.wav", menu_theme(), peak=0.8)
@@ -466,3 +474,4 @@ if __name__ == "__main__":
     save("sfx_boss_thud.wav", boss_thud(), peak=0.75)
     save("sfx_boss_explode.wav", boss_explode(), peak=0.9)
     save("jingle_boss_defeat.wav", boss_defeat_jingle())
+    save("jingle_cat_combo.wav", cat_combo_jingle())
