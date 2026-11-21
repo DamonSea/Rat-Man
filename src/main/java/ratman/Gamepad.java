@@ -37,7 +37,7 @@ final class Gamepad {
 
         boolean pressed(ControllerButton button);
 
-        /** -1..1; for Y, up is positive (Jamepad's convention). */
+        /** -1..1; for Y, up is negative (same as the screen). */
         float axis(ControllerAxis axis);
 
         String name();
@@ -93,7 +93,8 @@ final class Gamepad {
         if (n == null) return false;
         n = n.toLowerCase();
         return n.contains("ps3") || n.contains("ps4") || n.contains("ps5") || n.contains("playstation")
-                || n.contains("dualsense") || n.contains("dualshock") || n.contains("sony");
+                || n.contains("dualsense") || n.contains("dualshock") || n.contains("sony")
+                || n.contains("054c"); // Sony's USB vendor id, which browsers include in the name
     }
 
     String confirmLabel() {

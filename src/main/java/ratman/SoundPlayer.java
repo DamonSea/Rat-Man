@@ -64,6 +64,7 @@ public final class SoundPlayer {
     private static final Map<Track, Clip> MUSIC = new EnumMap<>(Track.class);
     private static Track currentTrack;
     private static boolean musicPaused;
+    private static boolean webMusicOn; // browser version: a track was actually started
 
     private SoundPlayer() {}
 
@@ -77,6 +78,10 @@ public final class SoundPlayer {
 
     public static void play(Sound sound) {
         if (!enabled || !Settings.sfxOn()) return;
+        if (RatMan.inBrowser) {
+            web(() -> WebBridge.playSound(sound.path.substring(1), SFX_DB));
+            return;
+        }
         Clip clip = SFX.computeIfAbsent(sound, s -> open(s.path, SFX_DB));
         if (clip == null) return;
         clip.stop();
@@ -93,6 +98,11 @@ public final class SoundPlayer {
         currentTrack = track;
         musicPaused = false;
         if (!enabled || !Settings.musicOn()) return;
+        if (RatMan.inBrowser) {
+            web(() -> WebBridge.playMusic(track.path.substring(1), MUSIC_DB));
+            webMusicOn = true;
+            return;
+        }
         Clip clip = MUSIC.computeIfAbsent(track, t -> open(t.path, MUSIC_DB));
         if (clip == null) return;
         clip.setFramePosition(0);
@@ -100,6 +110,8 @@ public final class SoundPlayer {
     }
 
     public static void stopMusic() {
+        if (RatMan.inBrowser && webMusicOn) web(WebBridge::stopMusic);
+        webMusicOn = false;
         if (currentTrack != null) {
             Clip clip = MUSIC.get(currentTrack);
             if (clip != null) clip.stop();
@@ -110,6 +122,13 @@ public final class SoundPlayer {
 
     /** Pause keeps the playback position so resume carries on where it left off. */
     public static void pauseMusic() {
+        if (RatMan.inBrowser) {
+            if (webMusicOn && !musicPaused) {
+                web(WebBridge::pauseMusic);
+                musicPaused = true;
+            }
+            return;
+        }
         Clip clip = currentTrack == null ? null : MUSIC.get(currentTrack);
         if (clip != null && clip.isRunning()) {
             clip.stop();
@@ -118,6 +137,11 @@ public final class SoundPlayer {
     }
 
     public static void resumeMusic() {
+        if (RatMan.inBrowser) {
+            if (webMusicOn && musicPaused && enabled && Settings.musicOn()) web(WebBridge::resumeMusic);
+            musicPaused = false;
+            return;
+        }
         Clip clip = currentTrack == null ? null : MUSIC.get(currentTrack);
         if (clip != null && musicPaused && enabled && Settings.musicOn()) {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -131,7 +155,18 @@ public final class SoundPlayer {
         else stopMusic();
     }
 
+    /** Browser version: hand audio to the web page; if that fails, carry on silently. */
+    private static void web(Runnable call) {
+        try {
+            call.run();
+        } catch (Throwable t) {
+            System.err.println("Browser audio unavailable: " + t);
+            enabled = false;
+        }
+    }
+
     private static boolean isRunning(Track track) {
+        if (RatMan.inBrowser) return webMusicOn && track == currentTrack && !musicPaused;
         Clip clip = MUSIC.get(track);
         return clip != null && clip.isRunning();
     }

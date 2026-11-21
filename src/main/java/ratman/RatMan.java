@@ -30,8 +30,8 @@ public final class RatMan {
             if (inBrowser) frame.setUndecorated(true); // the web page is the window
             // Controller support: start SDL once, then poll ~60x a second and hand the
             // actions to whichever screen is showing.
-            // (In the browser the desktop controller library can't load, so skip it.)
-            Gamepad.install(inBrowser ? new Gamepad(null) : Gamepad.start());
+            // (In the browser the desktop controller library can't load; the web page reads controllers instead.)
+            Gamepad.install(inBrowser ? new Gamepad(new WebBridge.PadSource()) : Gamepad.start());
             new javax.swing.Timer(16, e -> Gamepad.current().poll(
                     frame.getContentPane() instanceof Gamepad.Target t ? t : null)).start();
 

@@ -7,7 +7,8 @@
   <link rel="icon" href="icon.png" />
   <!-- CheerpJ runs the unchanged Java game in the browser (WebAssembly). Free for personal projects. -->
   <script src="https://cjrtnc.leaningtech.com/5.0/loader.js"></script>
-  <script src="jars.js"></script> <!-- written by the Pages workflow: window.RAT_JARS = [...] -->
+  <script src="jars.js"></script> <!-- written by the Pages workflow: RAT_JARS and RAT_SOUNDS -->
+  <script src="bridge.js"></script> <!-- sound + controllers for the game, through the browser -->
   <style>
     :root { color-scheme: dark; }
     html, body { margin: 0; height: 100%; background: #0d0b1a; color: #e8e4f5;
@@ -48,7 +49,8 @@
   <p class="note">
     Move with <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ·
     Pause with <kbd>P</kbd> or <kbd>Esc</kbd> · Click the game if the keys stop responding.<br />
-    Controllers work in the <a href="https://github.com/DamonSea/Rat-Man/releases/latest">Mac &amp; Windows apps</a>.
+    Controllers (PS5, Xbox, Switch Pro) work too: once the game is running, press any button on it so the browser lets the game see it.<br />
+    <a href="https://github.com/DamonSea/Rat-Man/releases/latest">Mac &amp; Windows apps</a>
     · <a href="https://github.com/DamonSea/Rat-Man/blob/main/CHANGELOG.md">What's new</a>
     · Built with <a href="https://cheerpj.com/">CheerpJ</a>
   </p>
@@ -58,10 +60,11 @@
   const status = document.getElementById("status");
 
   play.addEventListener("click", async () => {
+    window.ratAudioUnlock(); // has to happen right here in the click, before anything is awaited
     play.disabled = true;
     status.textContent = "Loading Java… (this can take 20–40 seconds the first time)";
     try {
-      await cheerpjInit({ version: 17 });
+      await cheerpjInit({ version: 17, natives: window.RAT_NATIVES });
       document.getElementById("start").remove();
       cheerpjCreateDisplay(-1, -1, document.getElementById("game"));
       // "/app/" is the root of this website; the game lives in this page's folder.
