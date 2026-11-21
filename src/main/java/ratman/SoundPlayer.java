@@ -35,7 +35,8 @@ public final class SoundPlayer {
         BOSS_DASH("sfx_boss_dash.wav"),
         BOSS_THUD("sfx_boss_thud.wav"),
         BOSS_EXPLODE("sfx_boss_explode.wav"),
-        BOSS_DEFEAT("jingle_boss_defeat.wav");
+        BOSS_DEFEAT("jingle_boss_defeat.wav"),
+        CAT_COMBO("jingle_cat_combo.wav");
 
         final String path;
 

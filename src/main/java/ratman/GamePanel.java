@@ -36,7 +36,9 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
 
     static final int DOT_POINTS = 10;
     static final int PELLET_POINTS = 50;
-    static final int CAT_POINTS = 100;
+    static final int CAT_POINTS = 100;       // first cat per big cheese; each next one doubles (100, 200, 400)
+    static final int COMBO_BONUS = 1000;     // eat all three cats on one big cheese
+    static final int BANNER_TICKS = 22;
 
     private final Random random = new Random();
     /**
@@ -122,6 +124,12 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
     // ---- HUD effects ----
     /** Floating "+100" style labels; drawn by the renderer, aged every tick. */
     record Popup(int x, int y, String text, int age) {}
+    /** Cats eaten since the last big cheese; resets when the power-up runs out. */
+    int catCombo;
+    /** Big centre-screen message (e.g. CAT COMBO!), or null. */
+    String banner;
+    String bannerSub;
+    int bannerAge;
     static final int POPUP_TICKS = 12;
     final java.util.List<Popup> popups = new java.util.ArrayList<>();
     int displayedScore;            // rolls up toward score so points "count in"
@@ -332,6 +340,7 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
 
         if (poweredUp && --powerTimer <= 0) {
             poweredUp = false;
+            catCombo = 0;
             cats.forEach(c -> c.frightened = false);
         }
 
@@ -376,6 +385,7 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
             score += PELLET_POINTS;
             poweredUp = true;
             powerTimer = POWER_TICKS;
+            catCombo = 0;
             frightenCats();
             popups.add(new Popup(playerX, playerY, "+" + PELLET_POINTS, 0));
             SoundPlayer.play(Sound.CHEESE);
@@ -441,10 +451,25 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
         cat.eyes = true;
         cat.frightened = false;
         cat.respawnTimer = 0;
-        score += CAT_POINTS;
-        popups.add(new Popup(cat.x, cat.y, cat.personality.catName.toUpperCase() + " +" + CAT_POINTS, 0));
-        SoundPlayer.play(Sound.EAT_CAT);
-        Gamepad.rumble(0.3f, 0.5f, 150);
+        catCombo++;
+        int points = CAT_POINTS << Math.min(catCombo - 1, 2); // 100, 200, 400
+        score += points;
+        popups.add(new Popup(cat.x, cat.y, cat.personality.catName.toUpperCase() + " +" + points, 0));
+        if (catCombo == 3) {
+            // all three cats on one big cheese
+            score += COMBO_BONUS;
+            banner = "CAT COMBO!";
+            bannerSub = "+" + COMBO_BONUS;
+            bannerAge = 0;
+            effects.shake(0.5, 6);
+            effects.sparks(cat.x * TILE + TILE / 2.0, cat.y * TILE + TILE / 2.0, 70,
+                    new java.awt.Color(255, 220, 60), new java.awt.Color(120, 200, 255), java.awt.Color.WHITE);
+            SoundPlayer.play(Sound.CAT_COMBO);
+            Gamepad.rumble(1f, 1f, 600);
+        } else {
+            SoundPlayer.play(Sound.EAT_CAT);
+            Gamepad.rumble(0.3f + 0.15f * catCombo, 0.5f + 0.15f * catCombo, 150);
+        }
     }
 
     /** For tests. */
@@ -500,6 +525,7 @@ final class GamePanel extends JPanel implements ActionListener, Gamepad.Target {
     private void updateHudEffects() {
         popups.replaceAll(p -> new Popup(p.x(), p.y(), p.text(), p.age() + 1));
         popups.removeIf(p -> p.age() > POPUP_TICKS);
+        if (banner != null && ++bannerAge > BANNER_TICKS) banner = null;
         if (displayedScore > score) displayedScore = score;
         if (displayedScore < score) displayedScore += Math.max(1, (score - displayedScore) / 3);
     }

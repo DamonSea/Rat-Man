@@ -560,6 +560,29 @@ final class Renderer {
             centeredAt(g, p.text(), POPUP, CHEESE_YELLOW, px, py);
             g.setComposite(old);
         }
+
+        // big centre banner (CAT COMBO!): pops in, holds, fades out
+        if (game.banner != null) {
+            int age = game.bannerAge;
+            float alpha = Math.min(1f, (GamePanel.BANNER_TICKS - age) / 5f);
+            double pop = age < 3 ? 0.6 + 0.2 * age : 1.0 + 0.04 * Math.sin(age * 1.3);
+            java.awt.Composite old = g.getComposite();
+            java.awt.geom.AffineTransform at = g.getTransform();
+            g.setComposite(java.awt.AlphaComposite.getInstance(java.awt.AlphaComposite.SRC_OVER, Math.max(0f, alpha)));
+            g.translate(CX, CY - 30);
+            g.scale(pop, pop);
+            g.translate(-CX, -(CY - 30));
+            g.setColor(new Color(10, 10, 30, 200));
+            g.fillRoundRect(CX - 185, CY - 88, 370, 112, 26, 26);
+            g.setColor(CHEESE_YELLOW);
+            g.setStroke(new java.awt.BasicStroke(3f));
+            g.drawRoundRect(CX - 185, CY - 88, 370, 112, 26, 26);
+            boolean flash = (age / 2) % 2 == 0;
+            centered(g, game.banner, BIG, flash ? Color.WHITE : CHEESE_YELLOW, CY - 30);
+            if (game.bannerSub != null) centered(g, game.bannerSub, HUD, CHEESE_YELLOW, CY + 8);
+            g.setTransform(at);
+            g.setComposite(old);
+        }
     }
 
     private void drawPauseMenu(Graphics2D g) {

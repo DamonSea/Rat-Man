@@ -98,10 +98,11 @@ final class HowToPlayMenu extends JPanel implements Gamepad.Target {
                                 + "(or a controller). Press P or ESC to pause. If a cat catches you, you lose a life."),
                 new Entry(cheese, "Grab the big cheese", yellow,
                         "Eating a big cheese powers you up: the cats turn blue and run away, and you can eat them "
-                                + "for 100 points. The bar at the bottom shows how long it lasts, and scared cats "
+                                + "for points. The bar at the bottom shows how long it lasts, and scared cats "
                                 + "flash just before it runs out. Eaten cats float back to the cage as eyes."),
                 new Entry(crop(scared, 0, 64), "Points", yellow,
-                        "Dot: 10.   Big cheese: 50.   Scared cat: 100.   Your score carries over from level to level."),
+                        "Dot: 10.   Big cheese: 50.   Scared cats: 100, then 200, then 400.   Eat all three on one big "
+                                + "cheese for a CAT COMBO: +1000!   Your score carries over from level to level."),
                 new Entry(null, "Tunnels", yellow,
                         "Run off the left or right edge of the maze to pop out on the other side. The cats "
                                 + "can't follow you through."),
