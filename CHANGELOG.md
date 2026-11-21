@@ -6,6 +6,14 @@ What's new in each version of Rat-Man. Download the latest version from the
 <!-- Each version starts with a "## vX.Y.Z" heading. When a release is published, the
      section with that version's heading is copied to the top of its release page. -->
 
+## v1.3.0 — Blue cheese (2026-11-21)
+
+<img src="https://raw.githubusercontent.com/DamonSea/Rat-Man/main/packaging/ratman.png" alt="The new Rat-Man icon" width="160">
+
+- **New app icon:** the glowing in-game cheese on a blue tile, in your Dock, taskbar and the game window.
+- **Cats pass through each other**, like the ghosts in Pac-Man. They no longer bump into each other and bunch up in corridors.
+- **Play in your browser:** Rat-Man now runs at [damonsea.github.io/Rat-Man](https://damonsea.github.io/Rat-Man/), with sound and controller support. No download needed.
+
 ## v1.2.1 — Stick fix (2026-11-20)
 
 - **Fixed:** pushing the left stick up moved you down (and down moved you up) in the game and the menus. The D-pad was never affected.
