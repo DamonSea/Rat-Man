@@ -33,7 +33,7 @@ public final class Leaderboard {
     }
 
     private static final int MAX_ENTRIES = 20;
-    private static Path file = Path.of(System.getProperty("user.home"), ".ratman", "leaderboard.txt");
+    private static Path file = Settings.dataDir().resolve("leaderboard.txt");
     private static Entry lastAdded;
     private static List<Entry> cache;
 
