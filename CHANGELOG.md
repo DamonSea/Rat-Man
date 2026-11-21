@@ -6,6 +6,14 @@ What's new in each version of Rat-Man. Download the latest version from the
 <!-- Each version starts with a "## vX.Y.Z" heading. When a release is published, the
      section with that version's heading is copied to the top of its release page. -->
 
+## v1.4.0 — Cat combo (2026-11-21)
+
+![The CAT COMBO! banner](https://raw.githubusercontent.com/DamonSea/Rat-Man/main/docs/media/cat-combo.png)
+
+- **Cat combo:** cats eaten on the same big cheese now score 100, then 200, then 400. Eat all three on one big cheese for a **+1000 CAT COMBO!**, with a banner, screen shake, sparks, rumble and its own jingle.
+- **CRT effect:** turn on **CRT EFFECT** in Settings for an old-TV look, with scanlines, curved corners and a faint flicker. It's off by default.
+- **Joe:** the Joe Oakes skin is now just **Joe**.
+
 ## v1.3.0 — Blue cheese (2026-11-21)
 
 <img src="https://raw.githubusercontent.com/DamonSea/Rat-Man/main/packaging/ratman.png" alt="The new Rat-Man icon" width="160">
