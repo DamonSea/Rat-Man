@@ -36,13 +36,15 @@ jobs:
       - name: Put the site together
         run: |
           mkdir -p site/lib
-          cp web/index.html site/
+          cp web/index.html web/bridge.js site/
+          cp -r src/main/resources/sounds site/sounds
           cp packaging/ratman.png site/icon.png
           cp target/rat-man.jar site/
           cp target/lib/*.jar site/lib/
-          # list the jars for the page's class path
-          ( cd site && printf 'window.RAT_JARS = [%s];\n' \
-              "$(ls rat-man.jar lib/*.jar | sed 's/.*/"&"/' | paste -sd, -)" ) > site/jars.js
+          # list the jars for the page's class path, and the sounds to preload
+          ( cd site && printf 'window.RAT_JARS = [%s];\nwindow.RAT_SOUNDS = [%s];\n' \
+              "$(ls rat-man.jar lib/*.jar | sed 's/.*/"&"/' | paste -sd, -)" \
+              "$(ls sounds/*.wav | sed 's/.*/"&"/' | paste -sd, -)" ) > site/jars.js
           cat site/jars.js
           ls -la site site/lib
 
