@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-/** Settings screen: maze style and sound, each a button that flips between two values. */
+/** Settings screen: maze style, sound, rumble and the CRT effect, each a button that flips between two values. */
 final class SettingsMenu extends JPanel implements Gamepad.Target {
     private static final int W = 500, H = 470;
 
@@ -18,28 +18,29 @@ final class SettingsMenu extends JPanel implements Gamepad.Target {
         setLayout(null);
 
         UiStyle.Title title = new UiStyle.Title("Settings", Assets.font("/fonts/GinkobRetroFont.ttf", 70f));
-        title.setBounds(0, 20, W, 110);
+        title.setBounds(0, 16, W, 100);
         add(title);
 
         Font font = Assets.font("/fonts/RetroNakjoy-Regular.otf", 24f);
-        UiStyle.RetroButton mazes = toggle("MAZES", "DESIGNED", "RANDOM", Settings::randomMazes, Settings::setRandomMazes, font, 125);
+        UiStyle.RetroButton mazes = toggle("MAZES", "DESIGNED", "RANDOM", Settings::randomMazes, Settings::setRandomMazes, font, 118);
         UiStyle.RetroButton music = toggle("MUSIC", "ON", "OFF", () -> !Settings.musicOn(), off -> {
             Settings.setMusicOn(!off);
             SoundPlayer.musicSettingChanged(SoundPlayer.Track.MENU);
-        }, font, 190);
-        UiStyle.RetroButton sfx = toggle("SOUND FX", "ON", "OFF", () -> !Settings.sfxOn(), off -> Settings.setSfxOn(!off), font, 255);
+        }, font, 174);
+        UiStyle.RetroButton sfx = toggle("SOUND FX", "ON", "OFF", () -> !Settings.sfxOn(), off -> Settings.setSfxOn(!off), font, 230);
         UiStyle.RetroButton rumble = toggle("RUMBLE", "ON", "OFF", () -> !Settings.rumbleOn(), off -> {
             Settings.setRumbleOn(!off);
             if (!off) Gamepad.rumble(0.6f, 0.6f, 250); // a little buzz so you can feel it's on
-        }, font, 320);
-        for (UiStyle.RetroButton b : new UiStyle.RetroButton[]{mazes, music, sfx, rumble}) add(b);
+        }, font, 286);
+        UiStyle.RetroButton crt = toggle("CRT EFFECT", "OFF", "ON", Settings::crtOn, Settings::setCrtOn, font, 342);
+        for (UiStyle.RetroButton b : new UiStyle.RetroButton[]{mazes, music, sfx, rumble, crt}) add(b);
 
         UiStyle.RetroButton back = UiStyle.RetroButton.cheese("BACK", Assets.font("/fonts/RetroNakjoy-Regular.otf", 30f));
-        back.setBounds(150, 392, 200, 60);
+        back.setBounds(150, 404, 200, 52);
         back.addActionListener(e -> RatMan.showMenu());
         add(back);
 
-        pad = new PadMenu(1, RatMan::showMenu, java.util.List.of(mazes, music, sfx, rumble, back));
+        pad = new PadMenu(1, RatMan::showMenu, java.util.List.of(mazes, music, sfx, rumble, crt, back));
     }
 
     private final PadMenu pad;
@@ -71,7 +72,7 @@ final class SettingsMenu extends JPanel implements Gamepad.Target {
         b.setFont(font);
         Runnable refresh = () -> b.setText(label + ":  " + (isSecond.getAsBoolean() ? second : first));
         refresh.run();
-        b.setBounds(70, y, 360, 56);
+        b.setBounds(70, y, 360, 48);
         b.addActionListener(e -> {
             setSecond.accept(!isSecond.getAsBoolean());
             refresh.run();

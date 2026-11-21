@@ -38,7 +38,7 @@ then open it again.
 - **Pause:** P or Esc, or Options / Start
 - **Controllers:** PS5, PS4, Xbox and Switch Pro, over USB or Bluetooth, on Mac and Windows. Every menu works with the D-pad + Cross / A.
 - Check **HOW TO PLAY** on the main menu for the rules and the cats' strategies.
-- **Settings** has toggles for music, sound effects, rumble, and random mazes.
+- **Settings** has toggles for music, sound effects, rumble, random mazes, and an optional old-TV **CRT effect**.
 
 Every version's changes are listed in the [changelog](https://github.com/DamonSea/Rat-Man/blob/main/CHANGELOG.md).
 
